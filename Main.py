@@ -5,7 +5,7 @@ import sqlite3
 
 ADMINROLE = "Your Admin Role Name"
 REGISTERED_ROLE_NAME = "Registered"
-IDSX = "DISCORD SERVER ID"
+IDSX = SERGVERIDHERE
 
 intents = discord.Intents.all()
 intents.members = True
@@ -50,17 +50,6 @@ async def load_reg_users():
                     await member.edit(nick=new_nickname)
                 except discord.Forbidden:
                     pass 
-
-def has_admin_role():
-    async def predicate(ctx):
-        if ctx.author is None:
-            return False
-        admin_role = discord.utils.get(ctx.guild.roles, name=ADMINROLE)
-        if admin_role is None:
-            return False
-        return admin_role in ctx.author.roles
-    return commands.check(predicate)
-
 @bot.command()
 async def leaderboard(ctx):
     cursor.execute('SELECT * FROM users ORDER BY elo DESC LIMIT 10')
@@ -182,9 +171,9 @@ def update_user_elo(user_id, new_elo):
     conn.commit()
 
 @bot.command()
-@has_admin_role()
+@commands.has_role(ADMINROLE)
 async def win(ctx, user: discord.Member):
-    user = ctx.guild.get_member(user.id)  # Fetch the member object instead of user object
+    user = ctx.guild.get_member(user.id)
     if user and user.id in elo_scores:
         for rank in ranks:
             if elo_scores[user.id] >= rank["elo_threshold"]:
@@ -199,9 +188,9 @@ async def win(ctx, user: discord.Member):
         await ctx.send(f'{user.mention} is not registered. Use !register to register first.')
 
 @bot.command()
-@has_admin_role()
+@commands.has_role(ADMINROLE)
 async def lose(ctx, user: discord.Member):
-    user = ctx.guild.get_member(user.id)  # Fetch the member object instead of user object
+    user = ctx.guild.get_member(user.id)
     if user and user.id in elo_scores:
         for rank in ranks:
             if elo_scores[user.id] >= rank["elo_threshold"]:
@@ -216,7 +205,7 @@ async def lose(ctx, user: discord.Member):
         await ctx.send(f'{user.mention} is not registered. Use !register to register first.')
 
 @bot.command()
-@has_admin_role()
+@commands.has_role(ADMINROLE)
 async def wipe(ctx, user: discord.Member):
     user = ctx.guild.get_member(user.id)
     if user and user.id in elo_scores:
@@ -225,8 +214,6 @@ async def wipe(ctx, user: discord.Member):
         await ctx.send(f'{user.mention} has been wiped. New Elo score: {elo_scores[user.id]}')
     else:
         await ctx.send(f'{user.mention} is not registered. Use !register to register first.')
-
-
 
 
         
