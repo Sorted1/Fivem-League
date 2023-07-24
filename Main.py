@@ -4,7 +4,7 @@ from discord.ext import commands
 import sqlite3
 
 ADMINROLE = "Your Admin Role Name"
-
+REGISTERED_ROLE_NAME = "Registered"
 IDSX = "DISCORD SERVER ID"
 
 intents = discord.Intents.all()
@@ -92,7 +92,12 @@ async def register(ctx):
             await author.edit(nick=new_nickname)
         except discord.Forbidden:
             pass  # Handle if the bot lacks permission to change nicknames
-        
+
+        # Give the user the "registered" role
+        registered_role = discord.utils.get(ctx.guild.roles, name=REGISTERED_ROLE_NAME)
+        if registered_role:
+            await author.add_roles(registered_role)
+
         elo_scores[author.id] = 0
         await ctx.send(f'{author.mention} has been registered with 0 Elo score and nickname set to {new_nickname}.')
     else:
@@ -167,7 +172,6 @@ async def start_competition(ctx, channel):
                                                          f"```")
         embed.add_field(name="Team 1", value=team1_info, inline=False)
         embed.add_field(name="Team 2", value=team2_info, inline=False)
-        embed.set_footer(text=f"Made By: Sorted AKA wldv")
 
         await ctx.send(embed=embed)
     else:
