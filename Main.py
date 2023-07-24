@@ -7,6 +7,18 @@ ADMINROLE = "Your Admin Role Name"
 REGISTERED_ROLE_NAME = "Registered"
 IDSX = SERGVERIDHERE
 
+ranks = [
+    {"name": "Legend", "elo_threshold": 1000, "win_points": 25, "lose_points": 40},
+    {"name": "Elite", "elo_threshold": 500, "win_points": 20, "lose_points": 35},
+    {"name": "Platinum", "elo_threshold": 400, "win_points": 20, "lose_points": 30},
+    {"name": "Gold", "elo_threshold": 300, "win_points": 20, "lose_points": 25},
+    {"name": "Silver", "elo_threshold": 200, "win_points": 15, "lose_points": 15},
+    {"name": "Bronze", "elo_threshold": 150, "win_points": 10, "lose_points": 5},
+    {"name": "Intermediate", "elo_threshold": 100, "win_points": 10, "lose_points": 5},
+    {"name": "Amateur", "elo_threshold": 50, "win_points": 10, "lose_points": 0},
+    {"name": "Registered", "elo_threshold": 0, "win_points": 5, "lose_points": 0},
+]
+
 intents = discord.Intents.all()
 intents.members = True
 intents.messages = True
@@ -122,18 +134,6 @@ async def l(ctx):
         await ctx.send(f'{author.mention} has left the queue in this channel. Queue size: {len(queues[channel.id])}')
     else:
         await ctx.send(f'{author.mention} is not in the queue in this channel.')
-
-ranks = [
-    {"name": "Legend", "elo_threshold": 1000, "win_points": 25, "lose_points": 40},
-    {"name": "Elite", "elo_threshold": 500, "win_points": 20, "lose_points": 35},
-    {"name": "Platinum", "elo_threshold": 400, "win_points": 20, "lose_points": 30},
-    {"name": "Gold", "elo_threshold": 300, "win_points": 20, "lose_points": 25},
-    {"name": "Silver", "elo_threshold": 200, "win_points": 15, "lose_points": 15},
-    {"name": "Bronze", "elo_threshold": 150, "win_points": 10, "lose_points": 5},
-    {"name": "Intermediate", "elo_threshold": 100, "win_points": 10, "lose_points": 5},
-    {"name": "Amateur", "elo_threshold": 50, "win_points": 10, "lose_points": 0},
-    {"name": "Registered", "elo_threshold": 0, "win_points": 5, "lose_points": 0},
-]
 
 async def start_competition(ctx, channel):
     user1_id = queues[channel.id][0]
