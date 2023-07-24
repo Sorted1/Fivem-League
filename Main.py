@@ -167,6 +167,7 @@ async def start_competition(ctx, channel):
                                                          f"```")
         embed.add_field(name="Team 1", value=team1_info, inline=False)
         embed.add_field(name="Team 2", value=team2_info, inline=False)
+        embed.set_footer(text=f"Made By: Sorted AKA wldv")
 
         await ctx.send(embed=embed)
     else:
